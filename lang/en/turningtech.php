@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'turningtech', language 'en'
+ * Strings for component 'TurningTechnologies', language 'en'
  * @package   mod_turningtech
  * @copyright Turning Technologies
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -24,9 +24,9 @@ $string['pluginname']           = 'TurningTechnologies';
 $string['modulename_help']           = 'TurningTechnologies Help';
 $string['pluginnamegeneral']           = 'TurningTechnologies';
 $string['pluginadministration'] = 'TurningTech administration';
-$string['turningtech']          = 'TurningTech';
-$string['modulename']           = 'turningtech';
-$string['modulenameplural']     = 'TurningTech';
+$string['turningtech']          = 'TurningTechnologies';
+$string['modulename']           = 'TurningTechnologies';
+$string['modulenameplural']     = 'TurningTechnologies';
 $string['turningtechfieldset']  = 'Custom example fieldset';
 $string['turningtechintro']     = 'Introduction';
 $string['turningtechname']      = 'TurningTech Activity Name';
