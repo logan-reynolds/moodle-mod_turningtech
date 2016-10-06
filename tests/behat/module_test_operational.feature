@@ -1,4 +1,4 @@
-@mod @turningtech
+@mod @turningtech @rl
 Feature: Test the complete sequence of operational steps for an activity module
   In order to guarantee activity module functionality
   As an administrator
@@ -6,7 +6,6 @@ Feature: Test the complete sequence of operational steps for an activity module
   And backup/restore the course to verify the module instance persists
   And delete an instance of the module within a course
   And delete a course containing an instance of the module
-  And uninstall the module
 
   @javascript
   Scenario: Testing the complete sequence of operational steps for an activity module
@@ -33,8 +32,3 @@ Feature: Test the complete sequence of operational steps for an activity module
     And I should see "testcourse has been completely deleted"
     And I press "Continue"
     Then I should not see "Test Course" in the "#course-category-listings ul.ml" "css_element"
-    When I navigate to "Plugins overview" node in "Site administration > Plugins"
-    And I click on "//tr[contains(concat(' ', normalize-space(@class), ' '), ' name-mod_turningtech ')]/descendant::td[contains(concat(' ', normalize-space(@class), ' '), ' uninstall ')]/descendant::a[1]" "xpath_element"
-    And I should see "You are about to uninstall the plugin"
-    And I press "Continue"
-    Then I should see "Success"
