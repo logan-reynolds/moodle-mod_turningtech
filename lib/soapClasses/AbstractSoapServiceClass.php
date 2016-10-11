@@ -87,6 +87,7 @@ abstract class TurningTechSoapService {
      * @return unknown_type
      */
     protected function getcoursefromrequest($request, $field = 'siteId') {
+        global $CFG;
         if ($course = $this->service->getCourseById($request->$field)) {
             //  Check Version.
             if ($CFG->version >= '2013111800.00') {

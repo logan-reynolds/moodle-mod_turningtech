@@ -23,7 +23,7 @@
  */
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version  = 2016060600; // The current module version (Date: YYYYMMDDXX)
+$plugin->version  = 2016090600; // The current module version (Date: YYYYMMDDXX)
 $plugin->component = 'mod_turningtech';
 $plugin->requires = 2011070100; // Requires this Moodle version
 $plugin->release  = '2.0+ (Build: 2013041901)';  // Human-friendly version name

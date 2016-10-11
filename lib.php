@@ -24,6 +24,31 @@
  * NOTE: callers which include/require this file ***MUST*** also include/require the following:
  * - [moodle root]/config.php
  */
+ /* Moodle core API */
+
+/**
+ * Returns the information on whether the module supports a feature
+ *
+ * See {@link plugin_supports()} for more info.
+ *
+ * @param string $feature FEATURE_xx constant for requested feature
+ * @return mixed true if the feature is supported, null if unknown
+ */
+function turningtech_supports($feature) {
+
+    switch($feature) {
+        case FEATURE_MOD_INTRO:
+            return true;
+        case FEATURE_SHOW_DESCRIPTION:
+            return true;
+        case FEATURE_GRADE_HAS_GRADE:
+            return true;
+        case FEATURE_BACKUP_MOODLE2:
+            return true;
+        default:
+            return null;
+    }
+}
 /**
  * Creates a directory file name, suitable for make_upload_directory()
  * @param object $course
@@ -186,9 +211,11 @@ function turningtech_user_complete($course, $user, $mod, $turningtech) {
  */
 function turningtech_add_instance($turningtech) {
     global $DB;
+
     $turningtech->timecreated = time();
     // You may have to add extra stuff in here.
     $turningtech->id = $DB->insert_record('turningtech', $turningtech);
+    turningtech_grade_item_update($turningtech);
     return $turningtech->id;
 }
 /**
@@ -204,7 +231,42 @@ function turningtech_update_instance($turningtech) {
     $turningtech->timemodified = time();
     $turningtech->id           = $turningtech->instance;
     // You may have to add extra stuff in here.
+    turningtech_grade_item_update($turningtech);
     return $DB->update_record('turningtech', $turningtech);
+}
+/**
+ * Creates or updates grade item for the given turningtech instance
+ *
+ * Needed by {@link grade_update_mod_grades()}.
+ *
+ * @param stdClass $turningtech instance object with extra cmidnumber and modname property
+ * @param bool $reset reset grades in the gradebook
+ * @return void
+ */
+function turningtech_grade_item_update(stdClass $turningtech, $reset=false) {
+    global $CFG;
+    require_once($CFG->libdir.'/gradelib.php');
+    $item = array();
+    $item['itemname'] = clean_param($turningtech->name, PARAM_NOTAGS);
+    $item['gradetype'] = GRADE_TYPE_VALUE;
+    $turningtech->grade = 100;
+    if ($turningtech->grade > 0) {
+        $item['gradetype'] = GRADE_TYPE_VALUE;
+        $item['grademax']  = $turningtech->grade;
+        $item['grademin']  = 0;
+    } else if ($turningtech->grade < 0) {
+        $item['gradetype'] = GRADE_TYPE_SCALE;
+        $item['scaleid']   = -$turningtech->grade;
+    } else {
+        $item['gradetype'] = GRADE_TYPE_NONE;
+    }
+
+    if ($reset) {
+        $item['reset'] = true;
+    }
+
+    grade_update('mod/turningtech', $turningtech->course, 'mod', 'turningtech',
+            $turningtech->id, 0, null, $item);
 }
 /**
  * Given an ID of an instance of this module,

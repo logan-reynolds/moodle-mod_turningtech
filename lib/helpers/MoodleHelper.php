@@ -472,6 +472,7 @@ class TurningTechMoodleHelper {
      * @return unknown_type
      */
     public static function getextinstructorcourses($user) {
+        global $CFG;
         $courses = array ();
         $mycourses = enrol_get_users_courses($user->id, false);
         // Iterate through courses and verify that this user is
@@ -532,6 +533,7 @@ class TurningTechMoodleHelper {
      * @return bool
      */
     public static function userhasrosterpermission($user, $course) {
+        global $CFG;
         $allowed = false;
         //  Check Version.
         if ($CFG->version >= '2013111800.00') {
